@@ -1,11 +1,11 @@
-import { FormEvent, Suspense, lazy, useState } from 'react'
+import { FormEvent, Suspense, lazy, useEffect, useState } from 'react'
 
 import './App.css'
 
+import { useDebounce, useMovies, useSearch } from './hooks'
+
 const Search = lazy(() => import('./components/Search/Search'))
 const Movies = lazy(() => import('./components/Movies/Movies'))
-
-import { useMovies, useSearch } from './hooks'
 
 function App() {
   const [isSorting, setIsSorting] = useState<boolean>(false)
@@ -13,10 +13,16 @@ function App() {
   const { search, updateSearch, error } = useSearch()
   const { movies, getMovies, isFetching } = useMovies({ isSorting })
 
+  const debouncedSearch = useDebounce(search, 500)
+
+  useEffect(() => {
+    getMovies(debouncedSearch)
+  }, [debouncedSearch, getMovies])
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    getMovies(search)
+    getMovies && getMovies(search)
   }
 
   const handleOnChange = (newSearch: string) => {

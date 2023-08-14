@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useCallback, useEffect } from 'react'
+import { ChangeEvent, FC, useCallback } from 'react'
 
 type Props = {
   isSorting?: boolean
@@ -8,10 +8,6 @@ type Props = {
 }
 
 const Search: FC<Props> = ({ search, isSorting, onChange, onCheck }) => {
-  useEffect(() => {
-    console.log('Search component rendered')
-  }, [])
-
   const handleOnChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       const newSearch = event.target.value
@@ -40,7 +36,9 @@ const Search: FC<Props> = ({ search, isSorting, onChange, onCheck }) => {
         onChange={handleOnCheck}
         aria-label="sort-checkbox"
       />
-      <label htmlFor="order-movies">Order</label>
+      <label className="checkbox" htmlFor="order-movies">
+        Order
+      </label>
       <button type="submit">Search</button>
     </header>
   )

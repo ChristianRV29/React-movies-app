@@ -28,6 +28,10 @@
   justify-content: center;
 }
 
+.checkbox {
+  margin-right: 8px;
+}
+
 .error {
   color: red;
   font-family: 'Courier New', Courier, monospace;
